@@ -16,6 +16,7 @@ const App: React.FC = () => {
   };
 
   const closeAlert = () => {
+    setShowAlert(false);
     setShowDismissAlert(false);
     console.log('Alert closed');
   };
@@ -53,7 +54,7 @@ const App: React.FC = () => {
       )}
 
       {showAlert && (
-        <Alert type="success">
+        <Alert type="success" onDismiss={closeAlert}> 
           This is a success type alert
         </Alert>
       )}

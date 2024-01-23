@@ -1,5 +1,7 @@
 import React from 'react';
 import Backdrop from '../Backdrop/Backdrop';
+import './Modal.css';
+import { CSSTransition } from 'react-transition-group';
 
 interface ModalProps {
   show: boolean;
@@ -13,6 +15,12 @@ const Modal: React.FC<ModalProps> = ({ show, title, onClose, buttons, children }
   return (
     <>
       <Backdrop show={show} onClick={onClose} />
+      <CSSTransition
+        in={show}
+        timeout={300}
+        classNames="modal"
+        unmountOnExit
+      >
       <div className={`modal ${show ? 'show' : ''}`} style={{ display: show ? 'block' : 'none' }}>
         <div className="modal-dialog">
           <div className="modal-content">
@@ -39,6 +47,7 @@ const Modal: React.FC<ModalProps> = ({ show, title, onClose, buttons, children }
           </div>
         </div>
       </div>
+      </CSSTransition>
     </>
   );
 };
