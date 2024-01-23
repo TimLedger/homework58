@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Modal from './components/Modal/Modal';
+import Alert from './components/Alert/Alert';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showDismissAlert, setShowDismissAlert] = useState<boolean>(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const closeAlert = () => {
+    setShowDismissAlert(false);
+    console.log('Alert closed');
+  };
+
+  const showAlertWithDismiss = () => {
+    setShowDismissAlert(true);
+  };
+
+  const showAlertWithoutDismiss = () => {
+    setShowAlert(true);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="App">
+      <button onClick={openModal}>Open Modal</button>
+      <button onClick={showAlertWithDismiss}>Show Alert with Dismiss</button>
+      <button onClick={showAlertWithoutDismiss}>Show Alert without Dismiss</button>
 
-export default App
+      <Modal
+        show={showModal}
+        onClose={closeModal}
+        title="Some Modal Title"
+        buttons={[
+          { type: 'primary', label: 'Continue', onClick: () => console.log('clicked continue')},
+          { type: 'danger', label: 'Close', onClick: () => console.log('clicked cancel')},
+        ]}
+      >
+        <p>This is modal content</p>
+      </Modal>
+
+      {showDismissAlert && (
+        <Alert type="warning" onDismiss={closeAlert} clickDismissable>
+          This is a warning type alert
+        </Alert>
+      )}
+
+      {showAlert && (
+        <Alert type="success">
+          This is a success type alert
+        </Alert>
+      )}
+
+    </div>
+  );
+};
+
+export default App;

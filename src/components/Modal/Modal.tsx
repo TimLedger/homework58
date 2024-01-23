@@ -1,6 +1,5 @@
 import React from 'react';
 import Backdrop from '../Backdrop/Backdrop';
-import './Modal.css';
 
 interface ModalProps {
   show: boolean;
@@ -19,6 +18,14 @@ const Modal: React.FC<ModalProps> = ({ show, title, onClose, buttons, children }
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5">{title}</h1>
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={onClose}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div className="modal-body">{children}</div>
             <div className="modal-footer">
@@ -28,9 +35,6 @@ const Modal: React.FC<ModalProps> = ({ show, title, onClose, buttons, children }
                     {btn.label}
                   </button>
                 ))}
-              <button className="btn btn-secondary" onClick={onClose}>
-                Close
-              </button>
             </div>
           </div>
         </div>

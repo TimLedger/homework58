@@ -1,5 +1,4 @@
 import React from 'react';
-import './Alert.css';
 
 interface AlertProps {
   type: 'primary' | 'success' | 'danger' | 'warning';
@@ -9,18 +8,33 @@ interface AlertProps {
 }
 
 const Alert: React.FC<AlertProps> = ({ type, onDismiss, clickDismissable, children }) => {
-  const handleClick = () => {
-    if (onDismiss) {
-      onDismiss();
-    }
-  };
+    const handleCloseClick = () => {
+        if (onDismiss && !clickDismissable) {
+          onDismiss();
+        }
+      };
+
+      const handleAlertClick = () => {
+        if (onDismiss && clickDismissable) {
+          onDismiss();
+        }
+      };
 
   return (
-    <div className={`alert alert-${type}`}>
-      {clickDismissable && <div onClick={handleClick} className="dismiss-overlay" />}
+    <div
+      className={`alert alert-${type} ${clickDismissable ? 'click-dismissable' : ''}`}
+      role="alert"
+      onClick={handleAlertClick}
+    >
       {children}
-      {onDismiss && (
-        <button type="button" className="btn-close" aria-label="Close" onClick={onDismiss}></button>
+      {onDismiss && !clickDismissable && (
+        <button
+          type="button"
+          className="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          onClick={handleCloseClick}
+        ></button>
       )}
     </div>
   );
